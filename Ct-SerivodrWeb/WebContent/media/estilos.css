@@ -1,0 +1,27 @@
+.container-fluid>.page-wrapper {
+	min-height: calc(100vh - 68px);
+}
+
+
+.barra-busqueda {
+	max-width: 50%;
+	width: 50% !important;
+}
+
+@media (max-width: 767px) {
+	.barra-busqueda {
+		max-width: unset;
+		width: auto !important;
+		flex: 1;
+	}
+}
+
+@media (max-width: 575px) {
+	.col-img-paquete {
+		padding-right: 7px !important;
+	}
+	
+	.col-info-paquete {
+		padding-left: 7px !important;
+	}
+}

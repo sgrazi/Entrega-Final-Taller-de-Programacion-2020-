@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<project basedir="." default="build" name="Ct-ServidorCentral">
+    
+	<property name="lib" value="lib" />
+    <property name="src" value="src" />
+    <property name="build" value="bin" />
+    <property name="classes" value="classes" />
+    <property name="jar" value="jar"/>
+	
+	<target name="init" depends="clean">
+		<echo message="Servidor central inicializando directorios..."/>
+		<mkdir dir="${build}" />
+		<mkdir dir="${build}/${classes}" />
+		<mkdir dir="${build}/${jar}" />
+    </target>	
+	
+	<target name="clean">
+		<echo message="Servidor central borrando directorios..."/>
+        <delete dir="${build}" />
+    </target>
+		
+	<target name="compile" depends="init">
+		<echo message="Servidor central Compilando..."/>
+        <javac destdir="${build}/${classes}" nowarn="on">
+			<exclude name="test/**/"/>
+            <src path="${src}"/>
+            <classpath>
+				<fileset dir="${lib}">
+					<include name="**/*.jar" />
+				</fileset>
+			</classpath>
+		</javac>
+    </target>
+	
+	<target name="jar" depends="compile">
+		<echo message="armo jar de estacion de trabajo"/>
+		<jar destfile="${build}/${jar}/${ant.project.name}.jar" basedir="${build}/${classes}">
+			<zipgroupfileset dir="${lib}" includes="**/*.jar"/>
+		</jar>
+	</target>
+
+</project>

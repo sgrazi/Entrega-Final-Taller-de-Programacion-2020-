@@ -1,0 +1,7 @@
+Proyecto entregado como entrega final de Taller de Programacion 2020 de la FING 
+
+Consiste en una plataforma para el manejo de espectaculos, funciones de estos
+
+El entorno de desarrollo fue utilizando Eclipse. Para el servidor se uso Tomcat, y
+se e utilizó Ant para empaquetar la aplicacion en un War para el servidor web y un Jar
+para la aplicacion central.

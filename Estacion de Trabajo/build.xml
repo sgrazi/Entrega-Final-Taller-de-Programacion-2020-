@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<project basedir="." default="build" name="servidor">
+
+	<property name="lib" value="lib" />
+	<property name="src" value="src/presentacion" />
+	<property name="build" value="bin" />
+	<property name="classes" value="classes" />
+	<property name="jar" value="jar" />
+	<property name="jar.dir" value="${build}/${jar}" />
+	<property name="servidor.central" value="../" />
+	<property name="Ct-ServidorCentral.location" value="../Ct-ServidorCentral" />
+
+	<target name="init" depends="clean">
+		<mkdir dir="${build}" />
+		<mkdir dir="${build}/${classes}" />
+		<mkdir dir="${build}/${jar}" />
+	</target>
+
+	<target name="clean">
+		<delete dir="${build}" />
+	</target>
+
+	<target name="build-subprojects">
+		<echo message="Estacion de trabajo compilando servidor central..." />
+		<ant antfile="build.xml" dir="${Ct-ServidorCentral.location}" inheritAll="false" target="jar">
+			<propertyset>
+				<propertyref name="jar" />
+			</propertyset>
+		</ant>
+	</target>
+
+	<target name="compile" depends="init,build-subprojects">
+		<echo message="Estacion de trabajo compilando..." />
+		<javac destdir="${build}/${classes}" nowarn="on"  encoding="utf8">
+			<src path="${src}" />
+			<classpath>
+				<fileset dir="${lib}">
+					<include name="**/*.jar" />
+				</fileset>
+				<fileset dir="${Ct-ServidorCentral.location}/bin/jar">
+					<include name="**/*.jar" />
+				</fileset>
+			</classpath>
+		</javac>
+	</target>
+
+	<target name="jar" depends="compile">
+		<echo message="Estacion de trabajo empaquetando..." />
+		<jar destfile="${build}/${jar}/${ant.project.name}.jar" basedir="${build}/${classes}">
+			<manifest>
+				<attribute name="Main-Class" value="presentacion.Principal" />
+			</manifest>
+			<zipfileset excludes="META-INF/*.SF, META-INF/*.DSA, META-INF/*.RSA" src="${lib}/jgoodies-forms-1.8.0.jar" />
+			<zipfileset excludes="META-INF/*.SF, META-INF/*.DSA, META-INF/*.RSA" src="${lib}/jcalendar-1.4.jar" />
+			<zipgroupfileset dir="${Ct-ServidorCentral.location}/bin/jar" includes="**/*.jar" />
+		</jar>
+	</target>
+
+	<target name="run">
+		<java jar="${build}/${jar}/servidor.jar" fork="true" />
+	</target>
+
+</project>
